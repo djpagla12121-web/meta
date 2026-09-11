@@ -27,7 +27,7 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
-BOT_TOKEN = "8718534442:AAHymGefTRKJmDcsB17gYHXwRB9B6X3fhEE"
+BOT_TOKEN = "8602647816:AAFXDQHWxcTtK39kJ6yuk4QkoZhmj1LsVWc"
 
 # ================= URL & API ENDPOINTS =================
 TARGET_CREATE_URL = "https://auth.meta.com/login/device-based/register-save-credentials/"
