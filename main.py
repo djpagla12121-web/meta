@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import asyncio
 import json
 import logging
@@ -6,6 +8,8 @@ import re
 import string
 import time
 import uuid
+from typing import Optional, Tuple
+
 import httpx
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup, Update
 from telegram.error import BadRequest
@@ -23,7 +27,7 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
-BOT_TOKEN = "8602647816:AAFXDQHWxcTtK39kJ6yuk4QkoZhmj1LsVWc"
+BOT_TOKEN = "8718534442:AAHymGefTRKJmDcsB17gYHXwRB9B6X3fhEE"
 
 # ================= URL & API ENDPOINTS =================
 TARGET_CREATE_URL = "https://auth.meta.com/login/device-based/register-save-credentials/"
@@ -191,7 +195,7 @@ def extract_tokens_and_uid(html: str):
 
     return fb_dtsg, lsd, actor_id
 
-def classify_create_response(status_code: int, data: dict | None, raw_text: str):
+def classify_create_response(status_code: int, data: Optional[dict], raw_text: str):
     if data is None:
         if "uid" in raw_text:
             m = re.search(r'"uid":\s*"?(\d+)"?', raw_text)
@@ -211,7 +215,7 @@ def classify_create_response(status_code: int, data: dict | None, raw_text: str)
     return False, "Unknown response"
 
 # ================= TEMP MAIL FUNCTIONS =================
-async def create_temp_mail() -> dict | None:
+async def create_temp_mail() -> Optional[dict]:
     try:
         async with httpx.AsyncClient(http2=True, timeout=15.0) as client:
             resp = await client.post(TEMPMAIL_CREATE_URL, headers=HEADERS_TEMPMAIL)
@@ -221,7 +225,7 @@ async def create_temp_mail() -> dict | None:
         logging.error(f"Temp mail error: {e}")
     return None
 
-async def poll_temp_mail_otp_realtime(token: str, status_msg, base_text: str, user_id: int, max_retries: int = 20, delay: float = 3.0) -> tuple[str | None, str]:
+async def poll_temp_mail_otp_realtime(token: str, status_msg, base_text: str, user_id: int, max_retries: int = 20, delay: float = 3.0) -> Tuple[Optional[str], str]:
     inbox_url = f"{TEMPMAIL_INBOX_URL}{token}"
     async with httpx.AsyncClient(http2=True, timeout=15.0) as client:
         for attempt in range(1, max_retries + 1):
@@ -534,7 +538,7 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             USER_SESSIONS[user_id]["state"] = "NONE"
 
-            # 4. Final Clean Dashboard (Exact user template without cookies or extra text)
+            # 4. Final Output Card
             if confirm_info.get("isConfirmed") is True:
                 confirmed_acc_id = confirm_info.get("accountId", final_uid)
                 final_dashboard = (
