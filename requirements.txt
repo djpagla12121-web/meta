@@ -1,22 +1,10 @@
-pkg update -y && \
-pkg install python python-pip openssl clang make binutils -y && \
-pkg install x11-repo tur-repo -y && \
-pkg update -y && \
-pkg install chromium -y && \
-pkg install libexpat libandroid-support libffi libsqlite libxml2 libxslt ncurses readline zlib freetype harfbuzz fontconfig libpng libjpeg-turbo libwebp libx11 libxext libxrender xorgproto -y && \
-pip install --quiet --break-system-packages httpx h2 requests selenium webdriver-manager 2>/dev/null; \
-pip install --quiet httpx h2 requests selenium webdriver-manager 2>/dev/null; \
-mkdir -p ~/meta-bot && cd ~/meta-bot && \
-termux-setup-storage 2>/dev/null; \
-clear && \
-echo "══════════════════════════════════════════" && \
-echo "  ✅ ALL INSTALLED SUCCESSFULLY" && \
-echo "══════════════════════════════════════════" && \
-echo "" && \
-python --version && \
-python -c "import httpx, h2, selenium; print('✅ httpx OK'); print('✅ h2 OK'); print('✅ selenium OK')" && \
-echo "" && \
-echo "  chromium:" && ls $PREFIX/lib/chromium/chrome && \
-echo "  chromedriver:" && ls $PREFIX/lib/chromium/chromedriver && \
-echo "" && \
-echo "══════════════════════════════════════════"
+cd ~/meta-bot-git
+cat > requirements.txt << 'EOF'
+httpx
+h2
+requests
+selenium
+webdriver-manager
+EOF
+
+cat requirements.txt
