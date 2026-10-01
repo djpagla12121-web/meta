@@ -1,0 +1,14 @@
+cd ~/meta-bot-git
+cat > .gitignore << 'EOF'
+bot.py
+tool.py
+setup.py
+bot.pyx
+bot.c
+build/
+__pycache__/
+*.pyc
+*.log
+.env
+venv/
+EOF
