@@ -1,4 +1,4 @@
-cd ~/meta-bot-git
+cd ~/meta
 cat > requirements.txt << 'EOF'
 httpx
 h2
